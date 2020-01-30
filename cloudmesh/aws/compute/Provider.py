@@ -7,14 +7,14 @@ from sys import platform
 from time import sleep
 
 import boto3
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, WaiterError
 from cloudmesh.abstractclass.ComputeNodeABC import ComputeNodeABC
+from cloudmesh.aws.compute.AwsFlavors import AwsFlavor
 from cloudmesh.common.DictList import DictList
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import banner
-from cloudmesh.compute.aws.AwsFlavors import AwsFlavor
 from cloudmesh.configuration.Config import Config
 from cloudmesh.mongo.CmDatabase import CmDatabase
 from cloudmesh.mongo.DataBaseDecorator import DatabaseImportAsJson
@@ -410,7 +410,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         except ClientError as e:
             Console.error(e)
 
-    def set_server_metadata(self, name, **data):
+    def set_server_metadata(self, name, data):
         """
         sets the metadata for the server
 
@@ -878,11 +878,16 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
                     "Currently instance cant be stopped...Please try again")
             Console.msg("Stopping Instance..Please wait...")
             waiter = self.ec2_client.get_waiter('instance_stopped')
-            waiter.wait(Filters=[
-                {'Name': 'instance-id', 'Values': [each_instance.instance_id]}])
-            Console.ok(
-                f"Instance having Tag:{name} and "
-                "Instance-Id:{each_instance.instance_id} stopped")
+            try:
+                waiter.wait(Filters=[
+                    {'Name': 'instance-id',
+                     'Values': [each_instance.instance_id]}])
+                Console.ok(
+                    f"Instance having Tag:{name} and Instance-Id:"
+                    f"{each_instance.instance_id} stopped")
+            except WaiterError:
+                Console.error(
+                    "Unable to stop instance id: " + each_instance.instance_id)
 
     def info(self, name=None):
 
