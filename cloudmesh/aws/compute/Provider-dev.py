@@ -10,7 +10,7 @@ from time import sleep
 import boto3
 from cloudmesh.common.Printer import Printer
 from botocore.exceptions import ClientError
-from cloudmesh.abstractclass.ComputeNodeABC import ComputeNodeABC
+from cloudmesh.abstract.ComputeNodeABC import ComputeNodeABC
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import banner
