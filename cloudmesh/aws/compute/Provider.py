@@ -8,7 +8,7 @@ from time import sleep
 
 import boto3
 from botocore.exceptions import ClientError, WaiterError
-from cloudmesh.abstractclass.ComputeNodeABC import ComputeNodeABC
+from cloudmesh.abstract.ComputeNodeABC import ComputeNodeABC
 from cloudmesh.aws.compute.AwsFlavors import AwsFlavor
 from cloudmesh.common.DictList import DictList
 from cloudmesh.common.Printer import Printer
