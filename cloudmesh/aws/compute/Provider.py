@@ -410,13 +410,13 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         except ClientError as e:
             Console.error(e)
 
-    def set_server_metadata(self, name, data):
+    def set_server_metadata(self, name, **metadata):
         """
         sets the metadata for the server
 
 
         :param name: virtual machine name
-        :param data: cm dict
+        :param metadata: cm dict
         :return:
         """
         #  {'cm': {'flavor': 't2.micro',
@@ -436,7 +436,12 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         #              ]
         id = self.info(name=name)['InstanceId']
         cm = self.get_server_metadata(name=name)
-        cm.update(data)
+
+        if 'cm' in metadata and isinstance(metadata['cm'], str):
+            import json
+            metadata = {"cm": json.loads(metadata['cm'].replace('\'', '\"'))}
+        cm.update(metadata)
+
         metadata = []
         for key, value in cm['cm'].items():
             metadata.append({'Key': f'cm.{key}', 'Value': value})
