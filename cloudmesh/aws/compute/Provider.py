@@ -40,6 +40,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
           default:
             image: ami-0c929bde1796e1484
             size: t2.medium
+            username: ec2-user
           credentials:
             region: {region}
             EC2_SECURITY_GROUP: cloudmesh
