@@ -706,6 +706,10 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
                     break
         user = "ubuntu"  # needs to be set on creation.
 
+        # This is not yet correct. Need to read username from the command line.
+        config = Config()
+        user = config[f"cloudmesh.cloud.aws.default.username"]
+
         if command is None:
             command = ""
 
