@@ -708,7 +708,8 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
         # This is not yet correct. Need to read username from the command line.
         config = Config()
-        user = config[f"cloudmesh.cloud.aws.default.username"]
+        cloud = vm['cm']['cloud']
+        user = config[f"cloudmesh.cloud.{cloud}.default.username"]
 
         if command is None:
             command = ""
