@@ -79,11 +79,9 @@ class AwsFlavor:
         parsed = []
         if 'OnDemand' in json['terms'].keys():
             for x in list(json['terms']['OnDemand'].keys()):
-                for y in list(
-                    json['terms']['OnDemand'][x]['priceDimensions'].keys()):
+                for y in list(json['terms']['OnDemand'][x]['priceDimensions'].keys()):
                     json_tmp = copy.deepcopy(json)
-                    name = json['terms']['OnDemand'][x]['priceDimensions'][
-                        y].get('rateCode')
+                    name = json['terms']['OnDemand'][x]['priceDimensions'][y].get('rateCode')
                     name = name.replace(".", "")
                     json_tmp['name'] = name
                     json_tmp["sku"] = json['product'].get('sku')
@@ -138,5 +136,5 @@ class AwsFlavor:
 # }
 
 # TODO: Implement Query in List
-# TODO: Write Print for AWS Flavors, andapt Provider.Print
+# TODO: Write Print for AWS Flavors, and Provider.Print
 # TODO: Fix the parsing code to standardize the database entries

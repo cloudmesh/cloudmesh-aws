@@ -82,7 +82,7 @@ dist:
 	twine check dist/*
 
 patch: clean requirements
-	$(call banner, "bbuild")
+	$(call banner, "build")
 	bump2version --no-tag --allow-dirty patch
 	python setup.py sdist bdist_wheel
 	git push

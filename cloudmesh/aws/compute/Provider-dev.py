@@ -1153,9 +1153,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
             try:
                 public_ip = \
                     self.ec2_client.describe_instances(
-                        InstanceIds=[new_ec2_instance.id])['Reservations'][0][
-                        'Instances'] \
-                        [0]['PublicIpAddress'],
+                        InstanceIds=[new_ec2_instance.id])['Reservations'][0]['Instances'][0]['PublicIpAddress'],
                 break
             except KeyError:
                 time.sleep(0.5)
